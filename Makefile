@@ -47,3 +47,5 @@ fclean: clean
 	@rm -f libft/libft.a
 	@echo "Executable file deleted: libft/libft.a"
 	@echo "Executable file deleted: $(NAME)"
+
+re: fclean all
