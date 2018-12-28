@@ -1,6 +1,6 @@
 NAME = wolf3d
 
-FILES = main 
+FILES = main create_map validate_line find_player
 
 SRC = $(addprefix src/, $(addsuffix .c, $(FILES)))
 OBJ = $(addprefix obj/, $(addsuffix .o, $(FILES)))

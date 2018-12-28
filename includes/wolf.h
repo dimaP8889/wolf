@@ -23,7 +23,13 @@ typedef	struct		s_object
 typedef	struct		s_game
 {
 	t_object		objects[5];
+	t_coordinates	player;
 	char			**map;
 }					t_game;
+
+t_game				create_map(int fd);
+void				error_message(char *error_message);
+int					validate_line(char *map_string, int player);
+void		 		find_player(char *map_line, t_coordinates *player, int y);
 
 #endif
