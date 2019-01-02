@@ -4,7 +4,7 @@
 **		error message
 */
 
-void		error_message(char *error_message)
+void		error_message(const char *error_message)
 {
 	ft_printf("%s\n", error_message);
 	exit(1);

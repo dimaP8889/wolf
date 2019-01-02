@@ -28,6 +28,8 @@ typedef	struct		s_window
 	SDL_Window		*screen;
 	SDL_Event		event;
 	SDL_Renderer	*renderer;
+	SDL_Texture 	*texture;
+	Uint32 			*pixels;
 }					t_window;
 
 typedef	struct		s_game
@@ -40,10 +42,11 @@ typedef	struct		s_game
 }					t_game;
 
 t_game				create_map(int fd);
-void				error_message(char *error_message);
+void				error_message(const char *error_message);
 int					validate_line(char *map_string, int player);
 void		 		find_player(char *map_line, t_coordinates *player, int y);
 t_window	 		create_screen();
 int					check_action(t_game game);
+void				key_pressed(SDL_KeyboardEvent key, t_game game);
 
 #endif
