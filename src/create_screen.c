@@ -18,6 +18,6 @@ t_window	 create_screen()
 	if (!window.texture)
 		error_message(SDL_GetError());
 	window.pixels = (Uint32*)malloc(sizeof(Uint32) * (WIDTH * HEIGHT));
-	ft_memset(window.pixels, 255, HEIGHT * WIDTH * sizeof(Uint32));
+	ft_memset(window.pixels, 0, HEIGHT * WIDTH * sizeof(Uint32));
 	return (window);
 }

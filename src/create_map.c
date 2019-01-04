@@ -40,13 +40,13 @@ static	t_game	check_list_and_create_map(t_list *rows)
 
 	i = 0;
 	closed = 0;
-	game.player.x = -1;
+	game.player.position.x = -1;
 	size_of_list = list_size(rows);
 	game.map = (char **)malloc(sizeof(char *) * (size_of_list + 1));
 	while(rows)
 	{
-		find_player(rows->content, &game.player, i);
-		closed = validate_line(rows->content, game.player.x);
+		find_player(rows->content, &game.player.position, i);
+		closed = validate_line(rows->content, game.player.position.x);
 		game.map[i] = ft_strdup(rows->content);
 		free(rows->content);
 		free(rows);
@@ -56,6 +56,7 @@ static	t_game	check_list_and_create_map(t_list *rows)
 	game.map[i] = NULL;
 	if (!closed)
 		error_message("Didnt close");
+	game.player = set_players_info(game.player.position);
 	return (game);
 }
 
@@ -80,9 +81,9 @@ t_game		create_map(int fd)
 		ft_lstaddlast(&rows, list);
 		ft_strdel(&readen_line);
 	}
-
 	game = check_list_and_create_map(rows);
-	if (game.player.x == -1)
+	game.block_size = 64;
+	if (game.player.position.x == -1)
 		error_message("No Player");
 	return (game);
 }

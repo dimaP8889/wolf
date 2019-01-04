@@ -9,44 +9,67 @@
 # include <fcntl.h>
 # include <time.h>
 
-# define WIDTH 1280
-# define HEIGHT 1000
+# define 				WIDTH 1280
+# define 				HEIGHT 1000
+#define				 	PI 3.14159265358979323846
 
-typedef	struct		s_coordinates
+typedef	struct			s_coordinates
 {
-	int				x;
-	int				y;
-}					t_coordinates;
+	int					x;
+	int					y;
+}						t_coordinates;
 
-typedef	struct		s_object
+typedef	struct			s_projection_plane
 {
-	t_coordinates	coordinates[5];
-}					t_object;
+	int					height;
+	int					width;
+	int					field_of_view;
+	int					dist_to_pp;
+	double				angle_between_col;
+	double				left_angle;
+	double				right_angle;
+}						t_projection_plane;
 
-typedef	struct		s_window
+typedef	struct			s_player
 {
-	SDL_Window		*screen;
-	SDL_Event		event;
-	SDL_Renderer	*renderer;
-	SDL_Texture 	*texture;
-	Uint32 			*pixels;
-}					t_window;
+	t_coordinates		position;
+	t_projection_plane	projection_plane;
+	int					size;
+	double				move_speed;
+	double				point_of_view;
+}						t_player;
 
-typedef	struct		s_game
+typedef	struct			s_object
 {
-	t_object		objects[5];
-	t_coordinates	player;
-	t_window		window;
+	t_coordinates		coordinates[5];
+}						t_object;
 
-	char			**map;
-}					t_game;
+typedef	struct			s_window
+{
+	SDL_Window			*screen;
+	SDL_Event			event;
+	SDL_Renderer		*renderer;
+	SDL_Texture 		*texture;
+	Uint32 				*pixels;
+}						t_window;
 
-t_game				create_map(int fd);
-void				error_message(const char *error_message);
-int					validate_line(char *map_string, int player);
-void		 		find_player(char *map_line, t_coordinates *player, int y);
-t_window	 		create_screen();
-int					check_action(t_game game);
-void				key_pressed(SDL_KeyboardEvent key, t_game game);
+typedef	struct			s_game
+{
+	t_object			objects[5];
+	t_player			player;
+	t_window			window;
+	double				block_size;
+	char				**map;
+}						t_game;
+
+t_game					create_map(int fd);
+void					error_message(const char *error_message);
+int						validate_line(char *map_string, int player);
+void		 			find_player(char *map_line, t_coordinates *player, int y);
+t_window	 			create_screen();
+int						check_action(t_game game);
+void					key_pressed(SDL_KeyboardEvent key, t_game game);
+void					draw(t_game game);
+t_player				set_players_info(t_coordinates	players_position);
 
 #endif

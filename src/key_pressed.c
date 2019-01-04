@@ -14,8 +14,4 @@ void	key_pressed(SDL_KeyboardEvent key, t_game game)
 		printf("up\n");
 	if (key.keysym.sym == SDLK_DOWN)
 		printf("down\n");
-	SDL_UpdateTexture(game.window.texture, NULL, game.window.pixels, WIDTH * sizeof(Uint32));
-	SDL_RenderClear(game.window.renderer);
-    SDL_RenderCopy(game.window.renderer, game.window.texture, NULL, NULL);
-    SDL_RenderPresent(game.window.renderer);
 }
