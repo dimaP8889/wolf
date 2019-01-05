@@ -13,10 +13,11 @@ int		main(int ac, char **argv)
 		exit(1);
 	fd = open(argv[1], O_RDONLY);
 	game = create_map(fd);
+	game.block_size = 64;
 	game.window = create_screen();
 	while (1)
 	{
-		if (!check_action(game))
+		if (!check_action(&game))
 			break;
 		draw(game);
 	}
@@ -32,7 +33,7 @@ int		main(int ac, char **argv)
 	printf("angle between col : %f\n", game.player.projection_plane.angle_between_col);
 	printf("left angle : %f\n", game.player.projection_plane.left_angle);
 	printf("right angle : %f\n", game.player.projection_plane.right_angle);
-	SDL_DestroyWindow(game.window.screen);
+	SDL_DestroyWindow(game.window.window);
 	SDL_Quit();
 	system("leaks wolf3d");
 	return 0;
