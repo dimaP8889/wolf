@@ -1,7 +1,7 @@
 #include "wolf.h"
 
 /*
-**		set wall
+**		set objects pixels
 */
 
 void	set_object(t_game game, int y, int x, int size)
@@ -11,19 +11,18 @@ void	set_object(t_game game, int y, int x, int size)
 
 	pixels_row = 0;
 	pixels_col = 0;
+
 	while (pixels_row < size)
 	{
 		while (pixels_col < size)
 		{
-			game.window.pixels[(y * size + pixels_row) * WIDTH + (x * y + pixels_col)] = 0x0000FF;
+			game.window.pixels[(y * 64 + pixels_row) * WIDTH + x * 64 + pixels_col] = 0xFFFFFF;
 			pixels_col++;
 		}
 		pixels_col = 0;
 		pixels_row++;
 	}
 }
-
-
 
 /*
 **		fill pixels
@@ -42,6 +41,11 @@ void	fill_pixels(t_game game)
 		{
 			if (game.map[row_num][col_num] == '#')
 				set_object(game, row_num, col_num, game.block_size);
+			if (game.map[row_num][col_num] == '*')
+			{
+				set_object(game, row_num, col_num, game.player.size);
+				cast_ray(game);
+			}
 			col_num++;
 		}
 		col_num = 0;
@@ -49,23 +53,15 @@ void	fill_pixels(t_game game)
 	}
 }
 
-void	key_pressed(SDL_KeyboardEvent key, t_game *game)
+void	key_pressed(SDL_KeyboardEvent key, t_game game)
 {
 	int x;
 
 	x = 0;
+	fill_pixels(game);
 	if (key.keysym.sym == SDLK_LEFT)
 	{
-	    for (int i = 0; i < HEIGHT; ++i)
-    	{
-    		for (int j = 0; j < WIDTH; ++j)
-    		{
-    			if (j < WIDTH / 2)
-    				game->window.pixels[x] = 255;
-    			x++;
-			}
-		}
-		printf("%i\n", x);
+		//fill_pixels(game);
 	}
 	if (key.keysym.sym == SDLK_RIGHT)
 		printf("right\n");
@@ -73,4 +69,5 @@ void	key_pressed(SDL_KeyboardEvent key, t_game *game)
 		printf("up\n");
 	if (key.keysym.sym == SDLK_DOWN)
 		printf("down\n");
+	cast_ray(game);
 }
