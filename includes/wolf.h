@@ -11,7 +11,9 @@
 
 # define 				WIDTH 1000
 # define 				HEIGHT 800
-#define				 	PI 3.14159265358979323846
+# define				PI 3.14159265358979323846
+# define				BLOCK 64
+# define				RADIAN PI / 360
 
 typedef	struct			s_coordinates
 {
