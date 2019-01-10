@@ -27,12 +27,13 @@ int				get_sign(double angle)
 	return 1;
 }
 
-t_coordinates	find_horizontal_dist(t_game game, double angle)
+int				find_horizontal_dist(t_game game, double angle)
 {
 	t_coordinates	A;
 	t_coordinates	player;
 	int				x_delta;
 	int				y_delta;
+	int				length;
 
 	player.x = game.player.position.x;
 	player.y = game.player.position.y;
@@ -51,17 +52,20 @@ t_coordinates	find_horizontal_dist(t_game game, double angle)
 		A.x += x_delta;
 		A.y += y_delta;
 	}
-	printf("x: %i\n", A.x);
-	printf("y: %i\n", A.y);
-	return (player);
+	length = abs(player.x - A.x) / cos (angle * RADIAN);
+	// printf("x: %i\n", A.x);
+	// printf("y: %i\n", A.y);
+	// printf("length: %i\n", length);
+	return (length);
 }
 
-t_coordinates	find_vertical_dist(t_game game, double angle)
+int				find_vertical_dist(t_game game, double angle)
 {
 	t_coordinates	A;
 	t_coordinates	player;
 	int				x_delta;
 	int				y_delta;
+	int				length;
 
 	player.x = game.player.position.x;
 	player.y = game.player.position.y;
@@ -82,9 +86,11 @@ t_coordinates	find_vertical_dist(t_game game, double angle)
 		A.x += x_delta;
 		A.y += y_delta;
 	}
-	printf("x: %i\n", A.x);
-	printf("y: %i\n", A.y);
-	return (player);
+	length = abs(player.x - A.x) / cos(angle * RADIAN);
+	// printf("x: %i\n", A.x);
+	// printf("y: %i\n", A.y);
+	// printf("length: %i\n", length);
+	return (length);
 }
 
 /*
@@ -93,19 +99,23 @@ t_coordinates	find_vertical_dist(t_game game, double angle)
 
 void	cast_ray(t_game game)
 {
-	t_coordinates		dist;
-	//int					sign;
-	//double				angle;
+	int					dist;
+	int					i;
 	double				angle;
 	
-	angle = game.player.point_of_view;
-	//while (angle < game.player.projection_plane.right_angle)
+	i = 0;
+	angle = game.player.projection_plane.left_angle;
+	dist = 0;
+	while (angle <= game.player.projection_plane.right_angle)
 	{
-		//angle = get_angle(game.player.point_of_view, &sign);
+		if (angle >= 360)
+			angle = angle - 360;
 		if ((angle >= 45 && angle <= 135) || (angle >= 225 && angle <= 315))
 			dist = find_vertical_dist(game, angle);
 		else if (angle > 315 || angle < 45 || (angle > 135 && angle < 225))
 			dist = find_horizontal_dist(game, angle);
+		game.player.projection_plane.distances[i] = dist;
+		printf("%i\n", dist);
 		angle += game.player.projection_plane.angle_between_col;
 	}
 	//ver_dist = find_vertical_dist(game);
