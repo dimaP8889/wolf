@@ -27,11 +27,12 @@ t_player			set_players_info(t_coordinates	players_position)
 {
 	t_player	player;
 
+	players_position.x = players_position.y;
 	player.position.x = players_position.x * 64;
 	player.position.y = players_position.y * 64;
 	player.size = 3;
 	player.move_speed = 1;
-	player.point_of_view = 225;
+	player.point_of_view = 10;
 	player.projection_plane = set_projection_plane(player.point_of_view);
 	return (player);
 }

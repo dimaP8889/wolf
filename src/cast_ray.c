@@ -27,65 +27,64 @@ int				get_sign(double angle)
 	return 1;
 }
 
-
-t_coordinates	find_horizontal_dist(t_game game, int sign_x, double angle)
+t_coordinates	find_horizontal_dist(t_game game, double angle)
 {
-	double				length;
-	int					y_pos;
-	int					i;
-	int					sign_y;
-	int					player_x;
-	t_coordinates		intersaption;
+	t_coordinates	A;
+	t_coordinates	player;
+	int				x_delta;
+	int				y_delta;
 
-	intersaption.x = 0;
-	intersaption.y = 0;
-	player_x = game.player.position.x;
-	i = 0;
-	sign_y = get_sign(angle);
-	y_pos = BLOCK * i * sign_y * tan(angle * RADIAN);
-	if (sign_y > 0)
-		player_x--;
-	while (game.map[(game.player.position.y + y_pos) / BLOCK][(player_x + BLOCK * sign_x * i) / BLOCK] != '#')
+	player.x = game.player.position.x;
+	player.y = game.player.position.y;
+	if (angle >= 90 && angle < 270)
 	{
-		y_pos = (BLOCK * i * (-sign_x) * tan(angle * RADIAN));
-		printf("angle: %f\n", angle);
-		printf("sign_y %i\n", sign_y);
-		printf("sign_x %i\n", sign_x);
-		printf("tan: %f\n", tan(angle * RADIAN));
-		printf("x: %i\n", (player_x + BLOCK * (sign_x) * i) / BLOCK);
-		printf("y: %i\n", (game.player.position.y + y_pos) / BLOCK);
-		printf("x_full: %i\n", (player_x + BLOCK * (sign_x) * i));
-		printf("y_full: %i\n", (game.player.position.y + y_pos));
-		i++;
+		A.x = (player.x / BLOCK) * BLOCK - 1;
+		x_delta = -BLOCK;
+	} else {
+		A.x = (player.x / BLOCK) * BLOCK + BLOCK;
+		x_delta = BLOCK;
 	}
-	length = BLOCK / cos(angle * RADIAN);
-	printf("%f\n", length);
-	// i = 0;
-	// if (game.player.point_of_view >= 0 && game.player.point_of_view < 180)
-	// {
-	// 	intersaption.y = (game.player.position.y / BLOCK) * BLOCK - 1; // find y where ray can touch wall
-	// } else if (game.player.point_of_view >= 180 && game.player.point_of_view < 360)
-	// {
-	// 	intersaption.y = (game.player.position.y / BLOCK) * BLOCK + 64;
-	// }
-	// intersaption.x = -64;
+	A.y = player.y + (player.x - A.x) * tan(angle * RADIAN);
+	y_delta = BLOCK * tan(angle * RADIAN);
+	while (game.map[A.y / BLOCK][A.x / BLOCK] != '#')
+	{
+		A.x += x_delta;
+		A.y += y_delta;
+	}
+	printf("x: %i\n", A.x);
+	printf("y: %i\n", A.y);
+	return (player);
+}
 
-	// printf("%c\n", game.map[intersaption.y / 64][intersaption.x / 64]);
-	// while (game.map[intersaption.y / 64][intersaption.x / 64] != '#')
-	// {
-	// 	printf("x: %i\n", intersaption.x);
-	// 	printf("y: %i\n", intersaption.y);
-	// 	if (game.player.point_of_view >= 0 && game.player.point_of_view < 180)
-	// 	{
-	// 		intersaption.y -= 64; // find y where ray can touch wall
-	// 	} else if (game.player.point_of_view >= 180 && game.player.point_of_view < 360)
-	// 	{
-	// 		intersaption.y += 64;
-	// 	}
-	// 	intersaption.x = game.player.position.x + (game.player.position.y - intersaption.y) / tan(game.player.point_of_view * PI / 360);
-	// 	i++;
-	//}
-	return(intersaption);
+t_coordinates	find_vertical_dist(t_game game, double angle)
+{
+	t_coordinates	A;
+	t_coordinates	player;
+	int				x_delta;
+	int				y_delta;
+
+	player.x = game.player.position.x;
+	player.y = game.player.position.y;
+	if (angle >= 0 && angle < 180)
+	{
+		A.y = (player.y / BLOCK) * BLOCK - 1;
+		y_delta = -BLOCK;
+	}
+	else if (angle >= 180 && angle < 360)
+	{
+		A.y = (player.y / BLOCK) * BLOCK + BLOCK;
+		y_delta = BLOCK;
+	}
+	A.x = player.x + (player.y - A.y) / tan(angle * RADIAN);
+	x_delta = BLOCK / tan(angle * RADIAN);
+	while (game.map[A.y / BLOCK][A.x / BLOCK] != '#')
+	{
+		A.x += x_delta;
+		A.y += y_delta;
+	}
+	printf("x: %i\n", A.x);
+	printf("y: %i\n", A.y);
+	return (player);
 }
 
 /*
@@ -94,12 +93,20 @@ t_coordinates	find_horizontal_dist(t_game game, int sign_x, double angle)
 
 void	cast_ray(t_game game)
 {
-	t_coordinates		hor_dist;
-	int					sign;
+	t_coordinates		dist;
+	//int					sign;
+	//double				angle;
 	double				angle;
-	//t_coordinates		ver_dist;
-
-	angle = get_angle(game.player.point_of_view, &sign);
-	hor_dist = find_horizontal_dist(game, sign, angle);
+	
+	angle = game.player.point_of_view;
+	//while (angle < game.player.projection_plane.right_angle)
+	{
+		//angle = get_angle(game.player.point_of_view, &sign);
+		if ((angle >= 45 && angle <= 135) || (angle >= 225 && angle <= 315))
+			dist = find_vertical_dist(game, angle);
+		else if (angle > 315 || angle < 45 || (angle > 135 && angle < 225))
+			dist = find_horizontal_dist(game, angle);
+		angle += game.player.projection_plane.angle_between_col;
+	}
 	//ver_dist = find_vertical_dist(game);
 }
