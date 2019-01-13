@@ -27,7 +27,7 @@ int				get_sign(double angle)
 	return 1;
 }
 
-int				find_horizontal_dist(t_game game, double angle)
+int				find_horizontal_dist(t_game *game, double angle)
 {
 	t_coordinates	A;
 	t_coordinates	player;
@@ -35,8 +35,8 @@ int				find_horizontal_dist(t_game game, double angle)
 	int				y_delta;
 	int				length;
 
-	player.x = game.player.position.x;
-	player.y = game.player.position.y;
+	player.x = game->player.position.x;
+	player.y = game->player.position.y;
 	if (angle >= 90 && angle < 270)
 	{
 		A.x = (player.x / BLOCK) * BLOCK - 1;
@@ -47,10 +47,14 @@ int				find_horizontal_dist(t_game game, double angle)
 	}
 	A.y = player.y + (player.x - A.x) * tan(angle * RADIAN);
 	y_delta = BLOCK * tan(angle * RADIAN);
-	while (game.map[A.y / BLOCK][A.x / BLOCK] != '#')
+	while (game->map[A.y / BLOCK][A.x / BLOCK] != '#')
 	{
 		A.x += x_delta;
 		A.y += y_delta;
+	}
+	if (angle == game->player.point_of_view)
+	{
+		game->player.line = A;
 	}
 	length = abs(player.x - A.x) / cos (angle * RADIAN);
 	// printf("x: %i\n", A.x);
@@ -59,7 +63,7 @@ int				find_horizontal_dist(t_game game, double angle)
 	return (length);
 }
 
-int				find_vertical_dist(t_game game, double angle)
+int				find_vertical_dist(t_game *game, double angle)
 {
 	t_coordinates	A;
 	t_coordinates	player;
@@ -67,8 +71,8 @@ int				find_vertical_dist(t_game game, double angle)
 	int				y_delta;
 	int				length;
 
-	player.x = game.player.position.x;
-	player.y = game.player.position.y;
+	player.x = game->player.position.x;
+	player.y = game->player.position.y;
 	if (angle >= 0 && angle < 180)
 	{
 		A.y = (player.y / BLOCK) * BLOCK - 1;
@@ -81,10 +85,14 @@ int				find_vertical_dist(t_game game, double angle)
 	}
 	A.x = player.x + (player.y - A.y) / tan(angle * RADIAN);
 	x_delta = BLOCK / tan(angle * RADIAN);
-	while (game.map[A.y / BLOCK][A.x / BLOCK] != '#')
+	while (game->map[A.y / BLOCK][A.x / BLOCK] != '#')
 	{
 		A.x += x_delta;
 		A.y += y_delta;
+	}
+	if (angle == game->player.point_of_view)
+	{
+		game->player.line = A;
 	}
 	length = abs(player.x - A.x) / cos(angle * RADIAN);
 	// printf("x: %i\n", A.x);
@@ -97,16 +105,16 @@ int				find_vertical_dist(t_game game, double angle)
 **		cast a ray to find distances to wall
 */
 
-void	cast_ray(t_game game)
+void	cast_ray(t_game *game)
 {
 	int					dist;
 	int					i;
 	double				angle;
 	
 	i = 0;
-	angle = game.player.projection_plane.left_angle;
+	angle = game->player.projection_plane.left_angle;
 	dist = 0;
-	while (angle <= game.player.projection_plane.right_angle)
+	while (angle <= game->player.projection_plane.right_angle)
 	{
 		if (angle >= 360)
 			angle = angle - 360;
@@ -114,9 +122,9 @@ void	cast_ray(t_game game)
 			dist = find_vertical_dist(game, angle);
 		else if (angle > 315 || angle < 45 || (angle > 135 && angle < 225))
 			dist = find_horizontal_dist(game, angle);
-		game.player.projection_plane.distances[i] = dist;
-		printf("%i\n", dist);
-		angle += game.player.projection_plane.angle_between_col;
+		game->player.projection_plane.distances[i] = dist;
+		//printf("%i\n", dist);
+		angle += game->player.projection_plane.angle_between_col;
 	}
 	//ver_dist = find_vertical_dist(game);
 }

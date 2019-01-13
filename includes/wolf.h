@@ -36,6 +36,7 @@ typedef	struct			s_projection_plane
 typedef	struct			s_player
 {
 	t_coordinates		position;
+	t_coordinates		line;
 	t_projection_plane	projection_plane;
 	int					size;
 	double				move_speed;
@@ -70,11 +71,11 @@ void					error_message(const char *error_message);
 int						validate_line(char *map_string, int player);
 void		 			find_player(char *map_line, t_coordinates *player, int y);
 t_window	 			create_screen();
-int						check_action(t_game game);
-void					key_pressed(SDL_KeyboardEvent key, t_game game);
+int						check_action(t_game *game);
+void					key_pressed(SDL_KeyboardEvent key, t_game *game);
 void					draw(t_game game);
 t_player				set_players_info(t_coordinates	players_position);
-void					fill_pixels(t_game game);
-void					cast_ray(t_game game);
+void					fill_pixels(t_game *game);
+void					cast_ray(t_game *game);
 
 #endif
