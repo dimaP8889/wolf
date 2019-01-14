@@ -27,11 +27,13 @@ t_player			set_players_info(t_coordinates	players_position)
 {
 	t_player	player;
 
+	player.line.x= -1; // need to delete after
+	player.line.y = -1; // need to delete after
 	player.position.x = players_position.x * 64;
 	player.position.y = players_position.y * 64;
 	player.size = 3;
 	player.move_speed = 1;
-	player.point_of_view = 45;
+	player.point_of_view = 30;
 	player.projection_plane = set_projection_plane(player.point_of_view);
 	return (player);
 }

@@ -1,7 +1,7 @@
 NAME = wolf3d
 
 FILES = main create_map validate_line find_player create_screen check_action \
-key_pressed draw set_players_info cast_ray \
+key_pressed draw set_players_info cast_ray check_angles \
 
 SRC = $(addprefix src/, $(addsuffix .c, $(FILES)))
 OBJ = $(addprefix obj/, $(addsuffix .o, $(FILES)))

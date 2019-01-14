@@ -13,7 +13,6 @@ int		main(int ac, char **argv)
 		exit(1);
 	fd = open(argv[1], O_RDONLY);
 	game = create_map(fd);
-	game.block_size = 64;
 	game.window = create_screen();
 	fill_pixels(&game);
 	while (1)

@@ -47,7 +47,7 @@ void	fill_pixels(t_game *game)
 		while (game->map[row_num][col_num])
 		{
 			if (game->map[row_num][col_num] == '#')
-				set_object(game, row_num * 64, col_num * 64, game->block_size);
+				set_object(game, row_num * 64, col_num * 64, 64);
 			col_num++;
 		}
 		col_num = 0;
@@ -72,8 +72,10 @@ void	key_pressed(SDL_KeyboardEvent key, t_game *game)
 		game->player.position.y--;
 	if (key.keysym.sym == SDLK_DOWN)
 		game->player.position.y++;
-	printf("Angle: %f\n", game->player.point_of_view);
 	update_info(game);
 	fill_pixels(game);
 	cast_ray(game);
+	printf("Left Angle: %f\n", game->player.projection_plane.left_angle);
+	printf("Angle: %f\n", game->player.point_of_view);
+	printf("Right Angle: %f\n", game->player.projection_plane.right_angle);
 }

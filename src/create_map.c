@@ -53,6 +53,8 @@ static	t_game	check_list_and_create_map(t_list *rows)
 		rows = rows->next;
 		i++;
 	}
+	game.map_size.y = i;
+	game.map_size.x = ft_strlen(game.map[0]);
 	game.map[i] = NULL;
 	if (!closed)
 		error_message("Didnt close");
@@ -82,7 +84,6 @@ t_game		create_map(int fd)
 		ft_strdel(&readen_line);
 	}
 	game = check_list_and_create_map(rows);
-	game.block_size = 64;
 	if (game.player.position.x == -1)
 		error_message("No Player");
 	return (game);

@@ -62,8 +62,8 @@ typedef	struct			s_game
 	t_object			objects[5];
 	t_player			player;
 	t_window			window;
-	int					block_size;
 	char				**map;
+	t_coordinates		map_size;
 }						t_game;
 
 t_game					create_map(int fd);
@@ -77,5 +77,6 @@ void					draw(t_game game);
 t_player				set_players_info(t_coordinates	players_position);
 void					fill_pixels(t_game *game);
 void					cast_ray(t_game *game);
+void					check_angles(t_game *game);
 
 #endif
