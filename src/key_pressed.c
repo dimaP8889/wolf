@@ -54,7 +54,6 @@ void	fill_pixels(t_game *game)
 		row_num++;
 	}
 	set_object(game, game->player.position.y, game->player.position.x, game->player.size);
-	cast_ray(game);
 }
 
 void	key_pressed(SDL_KeyboardEvent key, t_game *game)
