@@ -21,6 +21,7 @@ int				find_horizontal_dist(t_game *game, double angle)
 		A.x = (player.x / BLOCK) * BLOCK - 1;
 		x_delta = -BLOCK;
 	} else {
+		sign = -1;
 		A.x = (player.x / BLOCK) * BLOCK + 64;
 		x_delta = BLOCK;
 	}
@@ -31,7 +32,7 @@ int				find_horizontal_dist(t_game *game, double angle)
 	while (game->map[A.y / BLOCK][A.x / BLOCK] != '#')
 	{
 		A.x += x_delta;
-		A.y += y_delta;
+		A.y += y_delta * sign;
 		if (A.y / 64 >= game->map_size.y || A.y < 0) // check if out of range
 			return (10000000);
 	}
@@ -39,17 +40,20 @@ int				find_horizontal_dist(t_game *game, double angle)
 	//length = abs(player.x - A.x) / cos (angle * RADIAN);
 	if (angle == game->player.point_of_view) // need to delete after
 	{
-		int len = sqrt((player.x - game->player.line.x) * (player.x - game->player.line.x) + (player.y - game->player.line.y) * (player.y - game->player.line.y));
+		//int len = sqrt((player.x - game->player.line.x) * (player.x - game->player.line.x) + (player.y - game->player.line.y) * (player.y - game->player.line.y));
+		printf("len: %d\n", length);
+		printf("horizontal x: %d\n", A.x);
+		printf("horizontal y: %d\n", A.y);
 		//printf("game->player.line.x: %d\n", length);
-		printf("len: %d\n", len);
-		printf("length: %d\n", length);
-		printf("len: %d\n", len);
-		if (len > length)
-		{
-			printf("horizontal x: %d\n", A.x);
-			printf("horizontal y: %d\n", A.y);
+		// printf("len: %d\n", len);
+		// printf("length: %d\n", length);
+		// printf("len: %d\n", len);
+		//if (len > length)
+		//{
+			// printf("horizontal x: %d\n", A.x);
+			// printf("horizontal y: %d\n", A.y);
 			game->player.line = A;
-		}
+		//}
 	}
 	return (length);
 }
@@ -77,6 +81,7 @@ int				find_vertical_dist(t_game *game, double angle)
 	}
 	else if (angle >= 180 && angle < 360)
 	{
+		sign = -1;
 		A.y = (player.y / BLOCK) * BLOCK + 64;
 		y_delta = BLOCK;
 	}
@@ -86,18 +91,27 @@ int				find_vertical_dist(t_game *game, double angle)
 		return (10000000);
 	while (game->map[A.y / BLOCK][A.x / BLOCK] != '#')
 	{
-		A.x += x_delta;
+		A.x += sign * x_delta;
 		A.y += y_delta;
 		if (A.x / 64 >= game->map_size.x || A.x < 0) // check if out of range
 			return (10000000);
 	}
+	length = sqrt((player.x - A.x) * (player.x - A.x) + (player.y - A.y) * (player.y - A.y));
 	if (angle == game->player.point_of_view) // need to delete after
 	{
-		// printf("vertical x: %d\n", A.x);
-		// printf("vertical y: %d\n", A.y);
-		game->player.line = A;
+		int len = sqrt((player.x - game->player.line.x) * (player.x - game->player.line.x) + (player.y - game->player.line.y) * (player.y - game->player.line.y));
+		printf("length: %d\n", length);
+		printf("vertical x: %d\n", A.x);
+		printf("vertical y: %d\n", A.y);
+		printf("len: %d\n", len);
+		printf("length: %d\n", length);
+		if (len >= length)
+		{
+			// printf("horizontal x: %d\n", A.x);
+			// printf("horizontal y: %d\n", A.y);
+			game->player.line = A;
+		}
 	}
-	length = sqrt((player.x - A.x) * (player.x - A.x) + (player.y - A.y) * (player.y - A.y));
 	//length = abs(player.x - A.x) / cos(angle * RADIAN);
 	return (length);
 }
@@ -121,14 +135,11 @@ void	cast_ray(t_game *game)
 		check_angles(game);
 		if (angle >= 360)
 			angle = angle - 360;
-		printf("POV : %f\n", game->player.point_of_view);
-		printf("angle : %f\n", angle);
-		printf("i : %i\n", i);
-		dist = find_vertical_dist(game, angle);
 		dist_second = find_horizontal_dist(game, angle);
+		dist = find_vertical_dist(game, angle);
 		if (angle == game->player.point_of_view) {
 			// printf("x: %i\n", game->player.line.x);
-			// printf("x: %i\n", game->player.line.y);
+			// printf("y: %i\n", game->player.line.y);
 		}
 		game->player.projection_plane.distances[i] = dist < dist_second ? dist : dist_second;
 		if (angle == game->player.point_of_view) {
