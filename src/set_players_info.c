@@ -33,7 +33,6 @@ t_player			set_players_info(t_coordinates	players_position)
 	player.position.x = 224;
 	player.position.y = 160;
 	player.size = 3;
-	player.move_speed = 1;
 	player.point_of_view = 0;
 	player.projection_plane = set_projection_plane(player.point_of_view);
 	return (player);

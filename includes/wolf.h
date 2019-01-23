@@ -9,6 +9,8 @@
 # include <fcntl.h>
 # include <time.h>
 
+# define				MOVE 5
+# define				TURN 5
 # define 				WIDTH 1000
 # define 				HEIGHT 800
 # define				PI 3.14159265358979323846
@@ -17,9 +19,15 @@
 
 typedef	struct			s_coordinates
 {
+	double				x;
+	double				y;
+}						t_coordinates;
+
+typedef	struct			s_deltas
+{
 	int					x;
 	int					y;
-}						t_coordinates;
+}						t_deltas;
 
 typedef	struct			s_projection_plane
 {
@@ -37,9 +45,9 @@ typedef	struct			s_player
 {
 	t_coordinates		position;
 	t_coordinates		line;
+	t_coordinates		delta;
 	t_projection_plane	projection_plane;
 	int					size;
-	double				move_speed;
 	double				point_of_view;
 }						t_player;
 

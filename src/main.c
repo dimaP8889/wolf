@@ -22,10 +22,9 @@ int		main(int ac, char **argv)
 		draw(game);
 	}
 	printf("size : %i\n", game.player.size);
-	printf("move speed : %f\n", game.player.move_speed);
 	printf("point of view : %f\n", game.player.point_of_view);
-	printf("y : %i\n", game.player.position.y);
-	printf("x : %i\n", game.player.position.x);
+	printf("y : %f\n", game.player.position.y);
+	printf("x : %f\n", game.player.position.x);
 	printf("height pp : %i\n", game.player.projection_plane.height);
 	printf("width pp : %i\n", game.player.projection_plane.width);
 	printf("field of view : %i\n", game.player.projection_plane.field_of_view);

@@ -47,7 +47,7 @@ void	fill_pixels(t_game *game)
 		while (game->map[row_num][col_num])
 		{
 			if (game->map[row_num][col_num] == '#')
-				set_object(game, row_num * 64, col_num * 64, 64);
+				set_object(game, row_num * BLOCK, col_num * BLOCK, BLOCK);
 			col_num++;
 		}
 		col_num = 0;
@@ -64,13 +64,17 @@ void	key_pressed(SDL_KeyboardEvent key, t_game *game)
 	if (game->player.point_of_view >= 360)
 		game->player.point_of_view -= 360;
 	if (key.keysym.sym == SDLK_LEFT)
-		game->player.point_of_view += game->player.projection_plane.angle_between_col;
+		game->player.point_of_view += game->player.projection_plane.angle_between_col * TURN;
 	if (key.keysym.sym == SDLK_RIGHT)
-		game->player.point_of_view -= game->player.projection_plane.angle_between_col;
-	if (key.keysym.sym == SDLK_UP)
-		game->player.position.y--;
-	if (key.keysym.sym == SDLK_DOWN)
-		game->player.position.y++;
+		game->player.point_of_view -= game->player.projection_plane.angle_between_col * TURN;
+	if (key.keysym.sym == SDLK_UP) {
+		game->player.position.x += game->player.delta.x * MOVE;
+		game->player.position.y += game->player.delta.y * MOVE;
+	}
+	if (key.keysym.sym == SDLK_DOWN) {
+		game->player.position.x -= game->player.delta.x * MOVE;
+		game->player.position.y -= game->player.delta.y * MOVE;
+	}
 	update_info(game);
 	fill_pixels(game);
 	cast_ray(game);
