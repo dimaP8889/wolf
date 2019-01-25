@@ -10,7 +10,7 @@
 # include <time.h>
 
 # define				MOVE 5
-# define				TURN 5
+# define				TURN 10
 # define 				WIDTH 1000
 # define 				HEIGHT 800
 # define				PI 3.14159265358979323846

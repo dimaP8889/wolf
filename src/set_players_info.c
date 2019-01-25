@@ -30,8 +30,8 @@ t_player			set_players_info(t_coordinates	players_position)
 	(void)players_position;
 	player.line.x= -1; // need to delete after
 	player.line.y = -1; // need to delete after
-	player.position.x = 224;
-	player.position.y = 160;
+	player.position.x = players_position.x * BLOCK;
+	player.position.y = players_position.y * BLOCK;
 	player.size = 3;
 	player.point_of_view = 0;
 	player.projection_plane = set_projection_plane(player.point_of_view);

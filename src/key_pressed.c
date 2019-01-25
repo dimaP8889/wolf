@@ -44,6 +44,7 @@ void	fill_pixels(t_game *game)
 	ft_memset(game->window.pixels, 0, HEIGHT * WIDTH * sizeof(Uint32));
 	while (game->map[row_num])
 	{
+		printf("%s\n", game->map[row_num]);
 		while (game->map[row_num][col_num])
 		{
 			if (game->map[row_num][col_num] == '#')
