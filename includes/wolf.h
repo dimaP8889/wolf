@@ -23,6 +23,12 @@ typedef	struct			s_coordinates
 	double				y;
 }						t_coordinates;
 
+typedef struct 			s_ray_intersection 
+{
+	t_coordinates		coord;
+	float				distance;
+}						t_ray_intersection;
+
 typedef	struct			s_deltas
 {
 	int					x;

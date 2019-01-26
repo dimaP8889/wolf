@@ -27,7 +27,6 @@ t_player			set_players_info(t_coordinates	players_position)
 {
 	t_player	player;
 
-	(void)players_position;
 	player.line.x= -1; // need to delete after
 	player.line.y = -1; // need to delete after
 	player.position.x = players_position.x * BLOCK;
