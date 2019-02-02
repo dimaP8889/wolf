@@ -8,14 +8,11 @@ static t_projection_plane	set_projection_plane(double point_of_view)
 {
 	t_projection_plane	pp;
 
-	pp.height = 200;
-	pp.width = 320;
-	pp.field_of_view = 60;
-	pp.dist_to_pp = (pp.width / 2) / tan(PI * pp.field_of_view / 360);
-	pp.angle_between_col = (double)pp.field_of_view / (double)pp.width;
-	pp.left_angle = point_of_view + (pp.field_of_view / 2);
-	pp.right_angle = point_of_view - (pp.field_of_view / 2);
-	pp.distances = ft_memalloc(pp.width);
+	pp.dist_to_pp = (PP_WIDTH / 2) / tan(PI * PP_FIELD / 360);
+	pp.angle_between_col = (double)PP_FIELD / (double)PP_WIDTH;
+	pp.left_angle = point_of_view + (PP_FIELD / 2);
+	pp.right_angle = point_of_view - (PP_FIELD / 2);
+	pp.distances = (int*)malloc(sizeof(int) * PP_WIDTH);
 	return (pp);
 }	
 

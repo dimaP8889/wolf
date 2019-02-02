@@ -11,17 +11,26 @@
 
 # define				MOVE 5
 # define				TURN 10
-# define 				WIDTH 1000
+# define 				WIDTH 960
 # define 				HEIGHT 800
 # define				PI 3.14159265358979323846
 # define				BLOCK 64
 # define				RADIAN PI / 180
+# define				PP_WIDTH 320
+# define				PP_HEIGHT 200
+# define				PP_FIELD 60
 
 typedef	struct			s_coordinates
 {
 	double				x;
 	double				y;
 }						t_coordinates;
+
+typedef	struct			s_draw_params
+{
+	int					*heights;
+	int 				*positions;
+}						t_draw_params;
 
 typedef struct 			s_ray_intersection 
 {
@@ -37,9 +46,6 @@ typedef	struct			s_deltas
 
 typedef	struct			s_projection_plane
 {
-	int					height;
-	int					width;
-	int					field_of_view;
 	int					dist_to_pp;
 	int					*distances;
 	double				angle_between_col;
@@ -89,7 +95,7 @@ int						check_action(t_game *game);
 void					key_pressed(SDL_KeyboardEvent key, t_game *game);
 void					draw(t_game game);
 t_player				set_players_info(t_coordinates	players_position);
-void					fill_pixels(t_game *game);
+void					fill_pixels(t_game *game, t_draw_params draw_params);
 void					cast_ray(t_game *game);
 void					check_angles(t_game *game);
 

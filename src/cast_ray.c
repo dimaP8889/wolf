@@ -130,7 +130,7 @@ void	cast_ray(t_game *game)
 	i = 0;
 	check_angles(game);
 	angle = game->player.projection_plane.left_angle;
-	while (i <= game->player.projection_plane.width)
+	while (i < PP_WIDTH)
 	{
 		set_intersections(&intersection_vert, &intersection_hor);
 		check_angles(game);
@@ -138,9 +138,9 @@ void	cast_ray(t_game *game)
 			angle = angle - 360;
 		find_horizontal_dist(game, angle, &intersection_hor);
 		find_vertical_dist(game, angle, &intersection_vert);
-		game->player.projection_plane.distances[i] = shortest_dist(intersection_vert, intersection_hor);
+		game->player.projection_plane.distances[i] = 0;
 		i++;
-		//printf("%i\n", dist);
+		//printf("%i\n", i);
 		angle += game->player.projection_plane.angle_between_col;
 	}
 	game->player.line = get_shortest_coord(intersection_vert, intersection_hor, game);
