@@ -1,10 +1,10 @@
 #include "wolf.h"
 
 
-void	free_game(t_game *game)
-{
-	free(game->player.projection_plane.distances);
-}
+// void	free_game(t_game *game)
+// {
+// 	free(game->player.projection_plane.distances);
+// }
 
 /*
 **		main

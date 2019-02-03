@@ -10,14 +10,14 @@
 # include <time.h>
 
 # define				MOVE 5
-# define				TURN 10
+# define				TURN 100
 # define 				WIDTH 960
 # define 				HEIGHT 800
 # define				PI 3.14159265358979323846
 # define				BLOCK 64
 # define				RADIAN PI / 180
-# define				PP_WIDTH 320
-# define				PP_HEIGHT 200
+# define				PP_WIDTH 960
+# define				PP_HEIGHT 800
 # define				PP_FIELD 60
 
 typedef	struct			s_coordinates

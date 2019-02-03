@@ -26,7 +26,7 @@ FRAMEWORKS	=	-F./frameworks \
 HEADER = -I./includes -I./libft/includes
 
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 

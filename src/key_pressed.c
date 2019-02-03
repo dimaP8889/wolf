@@ -41,7 +41,7 @@ int* 		count_objects_heights(t_game *game)
 	heights = (int*)malloc(sizeof(int) * PP_WIDTH);
 	while (game->player.projection_plane.distances[i])
 	{
-		heights[i] = (game->player.projection_plane.dist_to_pp / game->player.projection_plane.distances[i]) * BLOCK;
+		heights[i] = ((float)game->player.projection_plane.dist_to_pp / (float)game->player.projection_plane.distances[i]) * (float)BLOCK;
 		i++;
 	}
 	return (heights);
@@ -58,7 +58,7 @@ int*		count_objects_positions(t_draw_params draw_params)
 	positions = (int*)malloc(sizeof(int) * PP_WIDTH);
 	while (draw_params.heights[i])
 	{
-		positions[i] = (PP_HEIGHT - draw_params.heights[i]) / 2;
+		positions[i] = ((float)PP_HEIGHT - (float)draw_params.heights[i]) / 2;
 		i++;
 	}
 	return (positions);
@@ -91,7 +91,7 @@ void 		set_line(int i, t_game *game, t_draw_params draw_params)
 	{
 		while (cur_step_width < step_width)
 		{
-			if (cur_height / step_height <= draw_params.positions[i] && (HEIGHT - cur_height) / step_height >= draw_params.positions[i])
+			if (cur_height / step_height >= draw_params.positions[i] && (HEIGHT - cur_height) / step_height >= draw_params.positions[i])
 				game->window.pixels[(cur_height * WIDTH) + i + cur_step_width] = 0xFFFFFF;
 			cur_step_width++;
 		}
@@ -111,10 +111,10 @@ void		fill_pixels(t_game *game, t_draw_params draw_params)
 	ft_memset(game->window.pixels, 0, HEIGHT * WIDTH * sizeof(Uint32));
 	while (i < PP_WIDTH)
 	{
+	
 		set_line(i, game, draw_params);
 		i++;
 	}
-	//set_object(game, game->player.position.y, game->player.position.x, game->player.size);
 }
 
 
@@ -168,9 +168,11 @@ void	key_pressed(SDL_KeyboardEvent key, t_game *game)
 	update_info(game);
 	cast_ray(game);
 	draw_params = count_draw_params(game);
-	fill_pixels_map(game);
-	free(draw_params.heights);
-	free(draw_params.positions);
+	fill_pixels(game, draw_params);
+	// free(draw_params.heights);
+	// free(draw_params.positions);
+
+
 	// printf("Left Angle: %f\n", game->player.projection_plane.left_angle);
 	// printf("Angle: %f\n", game->player.point_of_view);
 	// printf("Right Angle: %f\n", game->player.projection_plane.right_angle);

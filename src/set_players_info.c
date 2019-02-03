@@ -29,7 +29,7 @@ t_player			set_players_info(t_coordinates	players_position)
 	player.position.x = players_position.x * BLOCK;
 	player.position.y = players_position.y * BLOCK;
 	player.size = 3;
-	player.point_of_view = 0;
+	player.point_of_view = 90;
 	player.projection_plane = set_projection_plane(player.point_of_view);
 	return (player);
 }
