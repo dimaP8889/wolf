@@ -28,8 +28,8 @@ typedef	struct			s_coordinates
 
 typedef	struct			s_draw_params
 {
-	int					*heights;
-	int 				*positions;
+	float					*heights;
+	float 				*positions;
 }						t_draw_params;
 
 typedef struct 			s_ray_intersection 

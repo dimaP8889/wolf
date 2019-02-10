@@ -32,13 +32,13 @@ void	set_object(t_game *game, int y, int x, int size)
 
 // counted all walls heights
 
-int* 		count_objects_heights(t_game *game)
+float* 		count_objects_heights(t_game *game)
 {
 	int 	i;
-	int		*heights;
+	float		*heights;
 
 	i = 0;
-	heights = (int*)malloc(sizeof(int) * PP_WIDTH + 1);
+	heights = (float*)malloc(sizeof(float) * PP_WIDTH + 1);
 	while (i < PP_WIDTH)
 	{
 		heights[i] = ((float)game->player.projection_plane.dist_to_pp / (float)game->player.projection_plane.distances[i]) * (float)BLOCK;
@@ -50,13 +50,13 @@ int* 		count_objects_heights(t_game *game)
 
 // counted all walls positions (needs to impove)
 
-int*		count_objects_positions(t_draw_params draw_params)
+float*		count_objects_positions(t_draw_params draw_params)
 {
 	int		i;
-	int		*positions;
+	float		*positions;
 
 	i = 0;
-	positions = (int*)malloc(sizeof(int) * PP_WIDTH + 1);
+	positions = (float*)malloc(sizeof(float) * PP_WIDTH + 1);
 	while (i < PP_WIDTH)
 	{
 		positions[i] = ((float)PP_HEIGHT - (float)draw_params.heights[i]) / 2;
@@ -80,10 +80,10 @@ t_draw_params count_draw_params(t_game *game)
 
 void 		set_line(int i, t_game *game, t_draw_params draw_params)
 {
-	int 	cur_height;
-	int		step_width;
-	int		cur_step_width;
-	int		step_height;
+	float 	cur_height;
+	float		step_width;
+	float		cur_step_width;
+	float		step_height;
 
 	cur_height = 0;
 	step_width = WIDTH / PP_WIDTH;
@@ -94,7 +94,7 @@ void 		set_line(int i, t_game *game, t_draw_params draw_params)
 		while (cur_step_width < step_width)
 		{
 			if (cur_height / step_height >= draw_params.positions[i] && (HEIGHT - cur_height) / step_height >= draw_params.positions[i]) {
-				game->window.pixels[(cur_height * WIDTH) + (i * step_width) + cur_step_width] = 0xFFFFFF;
+				game->window.pixels[(int)((cur_height * WIDTH) + (i * step_width) + cur_step_width)] = 0xFFFFFF;
 			}
 			cur_step_width++;
 		}
