@@ -80,7 +80,7 @@ t_draw_params count_draw_params(t_game *game)
 
 void 		set_line(int i, t_game *game, t_draw_params draw_params)
 {
-	float 	cur_height;
+	float 		cur_height;
 	float		step_width;
 	float		cur_step_width;
 	float		step_height;
@@ -93,8 +93,8 @@ void 		set_line(int i, t_game *game, t_draw_params draw_params)
 	{
 		while (cur_step_width < step_width)
 		{
-			if (cur_height / step_height >= draw_params.positions[i] && (HEIGHT - cur_height) / step_height >= draw_params.positions[i]) {
-				game->window.pixels[(int)((cur_height * WIDTH) + (i * step_width) + cur_step_width)] = 0xFFFFFF;
+			if (cur_height / step_height >= draw_params.positions[i] && (float)((HEIGHT - cur_height) / step_height) >= draw_params.positions[i]) {
+				game->window.pixels[(int)((cur_height * (float)WIDTH) + (i * step_width) + cur_step_width)] = 0xFFFFFF;
 			}
 			cur_step_width++;
 		}

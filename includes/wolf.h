@@ -16,8 +16,8 @@
 # define				PI 3.14159265358979323846
 # define				BLOCK 64
 # define				RADIAN PI / 180
-# define				PP_WIDTH 320
-# define				PP_HEIGHT 200
+# define				PP_WIDTH 960
+# define				PP_HEIGHT 800
 # define				PP_FIELD 60
 
 typedef	struct			s_coordinates
@@ -28,21 +28,21 @@ typedef	struct			s_coordinates
 
 typedef	struct			s_draw_params
 {
-	float					*heights;
+	float				*heights;
 	float 				*positions;
 }						t_draw_params;
-
-typedef struct 			s_ray_intersection 
-{
-	t_coordinates		coord;
-	float				distance;
-}						t_ray_intersection;
 
 typedef	struct			s_deltas
 {
 	int					x;
 	int					y;
 }						t_deltas;
+
+typedef struct 			s_ray_intersection 
+{
+	t_coordinates		coord;
+	float				distance;
+}						t_ray_intersection;
 
 typedef	struct			s_projection_plane
 {
@@ -56,6 +56,7 @@ typedef	struct			s_projection_plane
 typedef	struct			s_player
 {
 	t_coordinates		position;
+	t_coordinates		line;
 	t_coordinates		delta;
 	t_projection_plane	projection_plane;
 	int					size;

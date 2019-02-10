@@ -10,6 +10,7 @@ void		draw(t_game game)
 	//SDL_SetRenderDrawColor(game.window.renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
 	SDL_RenderCopy(game.window.renderer, game.window.texture, NULL, NULL);
 	SDL_SetRenderDrawColor(game.window.renderer, 0, 0, 255, 255);
+	SDL_RenderDrawLine(game.window.renderer, 480, 0, 480, PP_HEIGHT);
 	SDL_RenderPresent(game.window.renderer);
 	SDL_RenderClear(game.window.renderer);
 }
