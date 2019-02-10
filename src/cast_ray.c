@@ -15,22 +15,27 @@ void				set_intersections(t_ray_intersection* intersection_vert, t_ray_intersect
 	intersection_hor->distance = -1;
 }
 
-double 				shortest_dist(t_ray_intersection intersection_vert, t_ray_intersection intersection_hor)
+float 				shortest_dist(t_ray_intersection intersection_vert, t_ray_intersection intersection_hor, float angle)
 {
+
+	float 	counted_angle;
+
+	//printf("%f\n", angle);
+	counted_angle = cos(angle * RADIAN);
 	if (intersection_hor.distance == -1)
-		return (intersection_vert.distance);
+		return (intersection_vert.distance * counted_angle);
 	if (intersection_vert.distance == -1)
-		return (intersection_hor.distance);
-	return (intersection_hor.distance > intersection_vert.distance ? intersection_vert.distance : intersection_hor.distance);
+		return (intersection_hor.distance * counted_angle);
+	return (intersection_hor.distance > intersection_vert.distance ? intersection_vert.distance * counted_angle : intersection_hor.distance * counted_angle);
 }
 
 void 				get_one_step_coordinate(t_game *game, t_ray_intersection intersection)
 {
-	game->player.delta.x = (double)(intersection.coord.x - game->player.position.x) / (double)intersection.distance;
-	game->player.delta.y = (double)(intersection.coord.y - game->player.position.y) / (double)intersection.distance;
+	game->player.delta.x = (float)(intersection.coord.x - game->player.position.x) / (float)intersection.distance;
+	game->player.delta.y = (float)(intersection.coord.y - game->player.position.y) / (float)intersection.distance;
 }
 
-t_coordinates		get_shortest_coord(t_ray_intersection intersection_vert, t_ray_intersection intersection_hor, t_game *game)
+void				find_one_step(t_ray_intersection intersection_vert, t_ray_intersection intersection_hor, t_game *game)
 {
 	t_ray_intersection		right_inter;
 
@@ -41,10 +46,9 @@ t_coordinates		get_shortest_coord(t_ray_intersection intersection_vert, t_ray_in
 	else 
 		right_inter = intersection_hor.distance > intersection_vert.distance ? intersection_vert : intersection_hor;
 	get_one_step_coordinate(game, right_inter);
-	return (right_inter.coord);
 }
 
-void				find_horizontal_dist(t_game *game, double angle, t_ray_intersection *intersection)
+void				find_horizontal_dist(t_game *game, float angle, t_ray_intersection *intersection)
 {
 	t_deltas		player;
 	float			x_delta;
@@ -81,7 +85,7 @@ void				find_horizontal_dist(t_game *game, double angle, t_ray_intersection *int
 **		find vertical distances
 */
 
-void				find_vertical_dist(t_game *game, double angle, t_ray_intersection *intersection)
+void				find_vertical_dist(t_game *game, float angle, t_ray_intersection *intersection)
 {
 	t_deltas		player;
 	float			x_delta;
@@ -125,7 +129,7 @@ void	cast_ray(t_game *game)
 	t_ray_intersection  intersection_vert;
 	t_ray_intersection  intersection_hor;
 	int					i;
-	double				angle;
+	float				angle;
 	
 	i = 0;
 	check_angles(game);
@@ -138,11 +142,13 @@ void	cast_ray(t_game *game)
 			angle = angle - 360;
 		find_horizontal_dist(game, angle, &intersection_hor);
 		find_vertical_dist(game, angle, &intersection_vert);
-		game->player.projection_plane.distances[i] = shortest_dist(intersection_vert, intersection_hor);
+		game->player.projection_plane.distances[i] = shortest_dist(intersection_vert, intersection_hor, fabs(PP_FIELD / 2 - i * game->player.projection_plane.angle_between_col));
+		if (angle == game->player.point_of_view)
+			find_one_step(intersection_vert, intersection_hor, game);
 		i++;
-		//printf("%i\n", i);
 		angle += game->player.projection_plane.angle_between_col;
 	}
-	game->player.line = get_shortest_coord(intersection_vert, intersection_hor, game);
+	game->player.projection_plane.distances[i] = 0;
+	//game->player.line = get_shortest_coord(intersection_vert, intersection_hor, game);
 	//ver_dist = find_vertical_dist(game);
 }

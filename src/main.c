@@ -1,10 +1,10 @@
 #include "wolf.h"
 
 
-// void	free_game(t_game *game)
-// {
-// 	free(game->player.projection_plane.distances);
-// }
+void	free_game(t_game *game)
+{
+	free(game->player.projection_plane.distances);
+}
 
 /*
 **		main
@@ -27,7 +27,7 @@ int		main(int ac, char **argv)
 			break;
 		draw(game);
 	}
-	// free_game(&game);
+	//free_game(&game);
 	printf("size : %i\n", game.player.size);
 	printf("point of view : %f\n", game.player.point_of_view);
 	printf("y : %f\n", game.player.position.y);

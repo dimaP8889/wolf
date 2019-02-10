@@ -9,21 +9,21 @@
 # include <fcntl.h>
 # include <time.h>
 
-# define				MOVE 5
-# define				TURN 100
+# define				MOVE 12
+# define				TURN 30
 # define 				WIDTH 960
 # define 				HEIGHT 800
 # define				PI 3.14159265358979323846
 # define				BLOCK 64
 # define				RADIAN PI / 180
-# define				PP_WIDTH 960
-# define				PP_HEIGHT 800
+# define				PP_WIDTH 320
+# define				PP_HEIGHT 200
 # define				PP_FIELD 60
 
 typedef	struct			s_coordinates
 {
-	double				x;
-	double				y;
+	float				x;
+	float				y;
 }						t_coordinates;
 
 typedef	struct			s_draw_params
@@ -47,20 +47,19 @@ typedef	struct			s_deltas
 typedef	struct			s_projection_plane
 {
 	int					dist_to_pp;
-	int					*distances;
-	double				angle_between_col;
-	double				left_angle;
-	double				right_angle;
+	float				*distances;
+	float				angle_between_col;
+	float				left_angle;
+	float				right_angle;
 }						t_projection_plane;
 
 typedef	struct			s_player
 {
 	t_coordinates		position;
-	t_coordinates		line;
 	t_coordinates		delta;
 	t_projection_plane	projection_plane;
 	int					size;
-	double				point_of_view;
+	float				point_of_view;
 }						t_player;
 
 typedef	struct			s_object
@@ -71,7 +70,6 @@ typedef	struct			s_object
 typedef	struct			s_window
 {
 	SDL_Window			*window;
-	SDL_Event			event;
 	SDL_Renderer		*renderer;
 	SDL_Texture 		*texture;
 	Uint32 				*pixels;

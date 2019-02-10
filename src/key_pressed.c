@@ -38,12 +38,13 @@ int* 		count_objects_heights(t_game *game)
 	int		*heights;
 
 	i = 0;
-	heights = (int*)malloc(sizeof(int) * PP_WIDTH);
-	while (game->player.projection_plane.distances[i])
+	heights = (int*)malloc(sizeof(int) * PP_WIDTH + 1);
+	while (i < PP_WIDTH)
 	{
 		heights[i] = ((float)game->player.projection_plane.dist_to_pp / (float)game->player.projection_plane.distances[i]) * (float)BLOCK;
 		i++;
 	}
+	heights[i] = 0;
 	return (heights);
 }
 
@@ -55,12 +56,13 @@ int*		count_objects_positions(t_draw_params draw_params)
 	int		*positions;
 
 	i = 0;
-	positions = (int*)malloc(sizeof(int) * PP_WIDTH);
-	while (draw_params.heights[i])
+	positions = (int*)malloc(sizeof(int) * PP_WIDTH + 1);
+	while (i < PP_WIDTH)
 	{
 		positions[i] = ((float)PP_HEIGHT - (float)draw_params.heights[i]) / 2;
 		i++;
 	}
+	positions[i] = 0;
 	return (positions);
 }
 
@@ -91,8 +93,9 @@ void 		set_line(int i, t_game *game, t_draw_params draw_params)
 	{
 		while (cur_step_width < step_width)
 		{
-			if (cur_height / step_height >= draw_params.positions[i] && (HEIGHT - cur_height) / step_height >= draw_params.positions[i])
-				game->window.pixels[(cur_height * WIDTH) + i + cur_step_width] = 0xFFFFFF;
+			if (cur_height / step_height >= draw_params.positions[i] && (HEIGHT - cur_height) / step_height >= draw_params.positions[i]) {
+				game->window.pixels[(cur_height * WIDTH) + (i * step_width) + cur_step_width] = 0xFFFFFF;
+			}
 			cur_step_width++;
 		}
 		cur_step_width = 0;
@@ -111,7 +114,6 @@ void		fill_pixels(t_game *game, t_draw_params draw_params)
 	ft_memset(game->window.pixels, 0, HEIGHT * WIDTH * sizeof(Uint32));
 	while (i < PP_WIDTH)
 	{
-	
 		set_line(i, game, draw_params);
 		i++;
 	}
@@ -153,9 +155,9 @@ void	key_pressed(SDL_KeyboardEvent key, t_game *game)
 	x = 0;
 	if (game->player.point_of_view >= 360)
 		game->player.point_of_view -= 360;
-	if (key.keysym.sym == SDLK_LEFT)
-		game->player.point_of_view += game->player.projection_plane.angle_between_col * TURN;
 	if (key.keysym.sym == SDLK_RIGHT)
+		game->player.point_of_view += game->player.projection_plane.angle_between_col * TURN;
+	if (key.keysym.sym == SDLK_LEFT)
 		game->player.point_of_view -= game->player.projection_plane.angle_between_col * TURN;
 	if (key.keysym.sym == SDLK_UP) {
 		game->player.position.x += game->player.delta.x * MOVE;
@@ -169,8 +171,8 @@ void	key_pressed(SDL_KeyboardEvent key, t_game *game)
 	cast_ray(game);
 	draw_params = count_draw_params(game);
 	fill_pixels(game, draw_params);
-	// free(draw_params.heights);
-	// free(draw_params.positions);
+	free(draw_params.heights);
+	free(draw_params.positions);
 
 
 	// printf("Left Angle: %f\n", game->player.projection_plane.left_angle);

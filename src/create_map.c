@@ -48,8 +48,8 @@ static	t_game	check_list_and_create_map(t_list *rows)
 		find_player(rows->content, &game.player.position, i);
 		closed = validate_line(rows->content, game.player.position.x);
 		game.map[i] = ft_strdup(rows->content);
-		// free(rows->content);
-		// free(rows);
+		free(rows->content);
+		free(rows);
 		rows = rows->next;
 		i++;
 	}

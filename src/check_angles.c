@@ -1,6 +1,6 @@
 #include "wolf.h"
 
-double			find_angle(double	angle)
+float			find_angle(float	angle)
 {
 	if (angle >= 360)
 		return (angle - 360);
